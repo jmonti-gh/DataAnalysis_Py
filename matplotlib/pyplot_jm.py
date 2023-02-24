@@ -55,20 +55,20 @@ import numpy as np
 # plt.ylabel('entry b')
 # plt.show()
 
-# ## Plotting with categorical variables
-# names = ['grp_a', 'grp_b', 'grp_c']
-# values = [1, 10, 100]
-# plt.figure(figsize=(9, 5))
-# plt.subplot(131)
-# plt.bar(names, values)
-# plt.subplot(132)
-# plt.scatter(names, values)
+## Plotting with categorical variables
+names = ['grp_a', 'grp_b', 'grp_c']
+values = [1, 10, 100]
+plt.figure(figsize=(9, 5))
+plt.subplot(131)
+plt.bar(names, values)
+plt.subplot(132)
+plt.scatter(names, values)
+plt.subplot(133)
+plt.plot(names, values)
 # plt.subplot(133)
-# plt.plot(names, values)
-# # plt.subplot(133)
-# # plt.plot(names, values, 'ro')
-# plt.suptitle('Categorical Plotting')
-# plt.show()
+# plt.plot(names, values, 'ro')
+plt.suptitle('Categorical Plotting')
+plt.show()
 
 ## Controlling line properties
 #plt.plot(x, y, linewidth=2.0) ....
