@@ -1,19 +1,14 @@
 ### System of linear equations solution using Cramer's rule
 # v4 refactor cuple of pieces & dinamic graphs (w/)
 
-import copy
 import numpy as np
 import matplotlib.pyplot as plt
 from bokeh.plotting import figure, output_file, show
 
-def build_gen_vector(letter, n):
-    ''' Build Generic Vector: e.g. u_lst por unknowns vector. Return 1D list
-    letter: letter of the elements. ukn: number elements of the vectos'''
-    lst = []
-    for i in range(1, n + 1):
-        i_str = str(i)
-        lst.append(letter + i_str)
-    return lst
+def bld_generic_vect(letter, n):
+    ''' Build Generic Vector of strings numbered. Return 1D list
+    letter: letter of the elements. n: number elements of the vectors'''
+    return [letter + str(i) for i in range(1, n + 1)]
 
 def drw_sys(M, vu, vr):
     ''' Return a string of the whole system of LE
@@ -32,12 +27,12 @@ def drw_sys(M, vu, vr):
 ### --- main --- ###
 print('\n ~~~ Linear Equation System Resolver ~~~\n')
 
-## Ask user to enter a valid number of unknowns
-ukns_num = 0
-while not ukns_num: 
+## Ask user to enter a valid number of unknowns (ukns_num)
+while True: 
     try:
         ukns_num = int(input('How many unknows does your system have? '))
         assert ukns_num >= 1 and ukns_num <= 10
+        break
     except:
         print('You must enter a postive integer number lesser than 10')
         print('   - We took lesser than 16 for computational hardware limitations')
@@ -46,26 +41,32 @@ while not ukns_num:
 ## To display generic sistemas of 'ukns_num' linear equations:
 
 # 1. Build base Matrix (bM) for later use
-bM = [['' for i in range(ukns_num)] for j in range(ukns_num)]
+bM = np.empty([ukns_num, ukns_num], dtype= '<U16')
 
-# 1. Build generic coeficients Matrix (gCM) [c11, c12 ... c21, c22, ... cN1, cNN]
-gCM_lst = copy.deepcopy(bM)
-for i in range(ukns_num):
-    i_str = str(i+1)
-    for j in range(ukns_num):
-        j_str = str(j+1)
-        gCM_lst[i][j] = 'c' + i_str + j_str
-gCM = np.array(gCM_lst)
-#print(gCM, type(gCM))
+# 2. Build generic coeficients Matrix (gCM) [c11, c12 ... c21, c22, ... cN1, cNN]
+#gCM = copy.deepcopy(bM)
+gCM = bM.copy()             # np.array.copy like deepcopy 
+# for i in range(ukns_num):
+#     i_str = str(i+1)
+#     for j in range(ukns_num):
+#         j_str = str(j+1)
+#         gCM[i,j] = 'c' + i_str + j_str
 
-# 3. Build generic unknowns vector (guv) [x1, x2, ..., xi, ..., xN]
-guv = np.array(build_gen_vector('x', ukns_num))
-#print(u, type(u))
-        
+# for i in range(ukns_num):
+#     for j in range(ukns_num):
+#         gCM[i,j] = 'c' + str(i+1) + str(j+1)
+
+from itertools import product
+for i, j in product(range(ukns_num), range(ukns_num)):
+    gCM[i,j] = 'c' + str(i+1) + str(j+1)
+
+print(bM)
+print(gCM)
+
+# 3. Build generic unknowns vector (guv) [x1, x2, ..., xi, ..., xN] AND
 # 4. Build generic idependent terms (results) vector(grv) [r1, r2, .. ri,... rN]
-grv = np.array(build_gen_vector('r', ukns_num))
-#print(r, type(r))
-
+guv = np.array(bld_generic_vect('x', ukns_num))
+grv = np.array(bld_generic_vect('r', ukns_num), dtype='<U16')
 
 ## Ask the user to enter valids coeficients
 while True:
