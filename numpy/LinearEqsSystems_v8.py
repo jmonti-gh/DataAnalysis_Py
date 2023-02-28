@@ -1,11 +1,10 @@
 ### System of linear equations solution using Cramer's rule
-# v7 more refactor w np.array slicing
+# v8 ...
 
 ### TO-DO:
-# 1. refactor one funct for the user inputs   - DONE!
-# 2. Obtain the actual equations format separated for 2D graph.
-# 3. mk 3D graph
-# 4. to analyze refactor 2D image construction
+# 1. Obtain the actual equations format separated for 2D graph. DONE!
+# 2. mk 3D graph
+# 3. to analyze refactor 2D image construction - DONE! (basic - more for 3D graph)
 
 import numpy as np
 import itertools as it
@@ -95,7 +94,7 @@ while True:
 ### Ask user to enter coeficients & independent terms (resutls)
 ## To display generic systems of 'ukns_num' linear equations:
 
-# 1. Build base Matrix (bM) for later use
+# 1. Build base Matrixs (bfM - bsM) for later use
 bfM = np.empty([ukns_num, ukns_num], dtype= float)
 bsM = bfM.astype('<U16')
 
@@ -138,7 +137,8 @@ r = np.array(res_f, dtype=float)
 
 # Display the actual LE System 
 print('\n ---> Actual System of Linear Equations:')
-print(drw_sys(CsM, guv, rs))
+actual_LEsystem = drw_sys(CsM, guv, rs)     # string that could be use later
+print(actual_LEsystem)
 
 ### NOT REALLY necesary only to have other view - later
 print('\n ---> Linear Algebra representation::')
@@ -166,8 +166,7 @@ print(ulst)      # solution list
 cont = input('\nPress return see graphs of the system...')
 
 if ukns_num == 2:
-    ## 2D Sys GRAPHS -- to make grhaps nee dd x2 = f(x1)
-    # esy to discover de unknown ¿?  divide every eq , every line
+    ## 2D Sys GRAPHS -- to make grhaps need x2 = f(x1) for each eq.
     # eq1: c11.x1 + c12.x2 = r1  => x2 = -c11/c12 * x1 + r1/c12
     # eq2: c21.x1 + c22.x2 = r2  => x2 = -c21/c22 * x1 + r1/c22
 
@@ -177,31 +176,41 @@ if ukns_num == 2:
     x2eq1 = -(CM[0,0] / CM[0,1]) * xis + r[0] / CM[0,1]
     x2eq2 = -(CM[1,0] / CM[1,1]) * xis + r[1] / CM[1,1]
 
-    plt.title('System of two linear equations: two rects')
-    plt.xlabel('X axis')
-    plt.ylabel('Y axis')
+    gtitle = 'System of two linear equations: two rects'
 
-    plt.plot(xis, x2eq1, color = "red", linewidth = 1.5, label = "Equation 1")
-    plt.plot(xis, x2eq2, color = "green", linewidth = 1.5, label = "Equation 2")
+    plt.title(gtitle)
+    plt.xlabel('x2')
+    plt.ylabel('x1')
+
+    # before plot must obtain de strings of eq1 an eq2 for the graph legend
+    nlpos = actual_LEsystem.find('\n')
+    eq1_str = actual_LEsystem[:nlpos].strip()
+    eq2_str = actual_LEsystem[nlpos:].strip()
+
+    plt.plot(xis, x2eq1, color = "red", linewidth = 1.5, label = eq1_str)
+    plt.plot(xis, x2eq2, color = "green", linewidth = 1.5, label = eq2_str)
 
     plt.axvline(x= ulst[0],linewidth= .5, linestyle= '-.')
     plt.axhline(y= ulst[1],linewidth= .5, linestyle= '-.')
-    #ax.hlines(y=0.2, xmin=4, xmax=20, linewidth=2, color='r')
-    #plt.hlines(y= y, xmin= 1, xmax= 3, linewidth= .5)
 
     plt.legend(loc= 'upper left')
 
     plt.show()
 
-    cont = input('Press return to interective graph...')
+    # build .html file using bokeh
+    ans = input('Do you like to get an .html file graph? ').lower()
+    if ans in 'yes' or ans in 'si':
+        fn = input('Please enter the filename: ')
+        ofn = fn + '.' + 'html'
+        output_file(ofn)
 
-    p = figure(width=700, height=400, title='System of two linear equations: two rects')
+        p = figure(width=700, height=400, title=gtitle)
 
-    # add a line renderer
-    p.line(xis, x2eq1, line_width=2, color='red')
-    p.line(xis, x2eq2, line_width=2, color='green')
+        # add a line renderer
+        p.line(xis, x2eq1, line_width=2, color='red')
+        p.line(xis, x2eq2, line_width=2, color='green')
 
-    show(p)
+        show(p)
 
 else:
     print('# --> No graphs available..., bye')
