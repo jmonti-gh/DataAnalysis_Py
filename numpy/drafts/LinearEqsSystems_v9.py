@@ -4,11 +4,8 @@
 ### TO-DO:
 # 2. mk 3D graph - just the begining nothing done - FUTURE
 # 4. add Results to plt 2D graph - DONE
-# 5. check if an arbitrary string is a valid filename (for bokeh.html) - FUTURE
-# 91. display in 2D graph the eqs in two forms, second form x2 = f(x1) - FUTUR
+# 9. display in 2D graph the eqs in two forms, second form x2 = f(x1) - FUTUR
 #   to see more clear de grpah and the pendient
-# 99. Not use the Cramer´s rule (use other method) to solve system cause
-#   the limitation of CM.det = 0 (Gauss-Jordan Elimination, Matrix Inversion)
 
 import numpy as np
 import itertools as it
