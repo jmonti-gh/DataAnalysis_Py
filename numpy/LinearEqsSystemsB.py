@@ -2,13 +2,15 @@
 # v9 ...
 
 ### TO-DO:
-# 2. mk 3D graph - just the begining nothing done - FUTURE
+# 2. mk 3D graph - (DONE a little) - FUTURE
 # 4. add Results to plt 2D graph - DONE
 # 5. check if an arbitrary string is a valid filename (for bokeh.html) - FUTURE
 # 91. display in 2D graph the eqs in two forms, second form x2 = f(x1) - FUTUR
 #   to see more clear de grpah and the pendient
 # 99. Not use the Cramer´s rule (use other method) to solve system cause
 #   the limitation of CM.det = 0 (Gauss-Jordan Elimination, Matrix Inversion)
+# 999.- make it w OOP, every eq an object and every LESys an objet too, can use
+# oject composition.
 
 import numpy as np
 import itertools as it
@@ -170,6 +172,7 @@ print(ulst)      # solution list
 
 cont = input('\nPress return see graphs of the system...')
 
+## 2D Sys GRAPHS
 if ukns_num == 2:
     ## 2D Sys GRAPHS -- to make grhaps need x2 = f(x1) for each eq.
     # eq1: c11.x1 + c12.x2 = r1  => x2 = -c11/c12 * x1 + r1/c12
@@ -189,6 +192,7 @@ if ukns_num == 2:
 
     # before plot must obtain de strings of eq1 an eq2 for the graph legend
     nlpos = actual_LEsystem.find('\n')
+    # en eq1_str show also (in the graph) the solutions:
     eq1_str = (actual_LEsystem[:nlpos].strip() + '         #  x1: ' +
                str(ulst[0]) + ',   x2: ' + str(ulst[1]))
     eq2_str = actual_LEsystem[nlpos:].strip()
@@ -205,10 +209,11 @@ if ukns_num == 2:
 
     # build .html file using bokeh
     ans = input('Do you like to get an .html file graph? ').lower()
-    if ans in 'yes' or ans in 'si':
+    if (ans in 'yes' or ans in 'si') and not "":
         fn = input('Please enter the filename: ')
         ofn = fn + '.' + 'html'
         output_file(ofn)
+# --> check if an arbitrary string is a valid filename
 
         p = figure(width=700, height=400, title=gtitle)
 
@@ -218,10 +223,10 @@ if ukns_num == 2:
 
         show(p)
 
+## 3D Sys GRAPHS
 elif ukns_num == 3:
-    ## 3D Sys GRAPHS -- to make grhaps need x2 = f(x1) for each eq.
-    # eq1: c11.x1 + c12.x2 = r1  => x2 = -c11/c12 * x1 + r1/c12
-    # eq2: c21.x1 + c22.x2 = r2  => x2 = -c21/c22 * x1 + r1/c22
+    # Need x3 = f(x1, x2) for each eq.......
+    
 
     ## FUTURE, now other fixed 3D graphs of planes.
 
