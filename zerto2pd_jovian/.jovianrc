@@ -2,6 +2,12 @@
   "notebooks": {
     "python-pandas-DA_jm.ipynb": {
       "slug": "876bfd220a9e4e329bc950a13dd3a98d"
+    },
+    "py-pandas-DA.ipynb": {
+      "slug": "7c8b8181b01c4409aa124f0756db3e05"
+    },
+    "py-matplotlib-DV.ipynb": {
+      "slug": "fc4f79538c2d422282bd9f6964400839"
     }
   }
 }
