@@ -5,13 +5,16 @@ import numpy as np
 
 # Import data
 df = pd.read_csv('medical_examination.csv')
-print(df.head())
+#print(df.head())
+print(df)
 
 # Add 'overweight' column
-df['overweight'] = None
+df['overweight'] = [1 if x > 25 else 0 for x in df.weight / ((df.height * 0.01) ** 2)]
 
 # Normalize data by making 0 always good and 1 always bad. If the value of 'cholesterol' or 'gluc' is 1, make the value 0. If the value is more than 1, make the value 1.
-
+df['cholesterol'] = df.cholesterol.map(lambda x: 0 if x == 1 else 1)
+df['gluc'] = df.gluc.map(lambda x: 0 if x == 1 else 1)
+print(df)
 
 # Draw Categorical Plot
 def draw_cat_plot():
