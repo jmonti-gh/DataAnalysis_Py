@@ -51,26 +51,47 @@ def draw_cat_plot():
 
 # Draw Heat Map
 def draw_heat_map():
-    # Clean the data
-    df_heat = None
+    for col in [df.height, df.weight]:
+        print(col.name.center(20, '-'))
+        for percent in [0.025, 0.25, 0.50, 0.75, 0.975]:
+            print(col.quantile(percent), end='  ')
+        print('\nmin:', col.min(), ' - mean:', col.mean(), ' - max:', col.max())
 
-    # Calculate the correlation matrix
-    corr = None
+    cont = input('Press enter to continue...')
 
-    # Generate a mask for the upper triangle
-    mask = None
+    # Clean the data                                        # Filter Out:
+    df_heat = df.loc[
+        (df['ap_lo'] <= df['ap_hi']) &                      # diastolic p. > systolic p.
+        (df['height'] >= df['height'].quantile(0.025)) &    # height < 2.5th percentile
+        (df['height'] <= df['height'].quantile(0.975)) &    # height > 97.5th percentile
+        (df['weight'] >= df['weight'].quantile(0.025)) &    # weight < 2.5th percentile
+        (df['weight'] <= df['weight'].quantile(0.975))      # weight > 97.5th percentile
+    ]
+    print('df_heat\n', df_heat)
+    cont = input('Press enter to continue...')
+
+    for col in [df_heat.height, df_heat.weight]:
+        print(col.name.center(20, '-'))
+        for percent in [0.025, 0.25, 0.50, 0.75, 0.975]:
+            print(col.quantile(percent), end='  ')
+        print('\nmin:', col.min(), ' - mean:', col.mean(), ' - max:', col.max())
+
+    # # Calculate the correlation matrix
+    # corr = None
+
+    # # Generate a mask for the upper triangle
+    # mask = None
 
 
+    # # Set up the matplotlib figure
+    # fig, ax = None
 
-    # Set up the matplotlib figure
-    fig, ax = None
-
-    # Draw the heatmap with 'sns.heatmap()'
-
+    # # Draw the heatmap with 'sns.heatmap()'
 
 
-    # Do not modify the next two lines
-    fig.savefig('heatmap.png')
-    return fig
+    # # Do not modify the next two lines
+    # fig.savefig('heatmap.png')
+    # return fig
 
-print(draw_cat_plot())
+#print(draw_cat_plot())
+draw_heat_map()
